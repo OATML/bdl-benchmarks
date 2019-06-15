@@ -141,7 +141,9 @@ def predict(x, model, num_samples, type="entropy"):
     x: `numpy.ndarray`, datapoints from input space,
       with shape [B, H, W, 3], where B the batch size and
       H, W the input images height and width accordingly.
-    model: `lambda x: p(x)`, a probabilistic model.
+    model: `tensorflow.keras.Model`, a probabilistic model,
+      which accepts input with shape [B, H, W, 3] and
+      outputs sigmoid probability [0.0, 1.0].
     num_samples: `int`, number of Monte Carlo samples
       (i.e. forward passes from dropout) used for
       the calculation of predictive mean and uncertainty.

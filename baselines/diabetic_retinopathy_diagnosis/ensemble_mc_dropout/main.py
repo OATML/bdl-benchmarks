@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-"""Script for training and evaluating Deep Ensemble baseline for
-Diabetic Retinopathy Diagnosis benchmark."""
+"""Script for training and evaluating Ensemble Monte Carlo Dropout
+baseline for Diabetic Retinopathy Diagnosis benchmark."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -31,7 +31,7 @@ tfk = tf.keras
 import bdlb
 from bdlb.core import plotting
 from baselines.diabetic_retinopathy_diagnosis.mc_dropout.model import VGGDrop
-from baselines.diabetic_retinopathy_diagnosis.deep_ensembles.model import predict
+from baselines.diabetic_retinopathy_diagnosis.ensemble_mc_dropout.model import predict
 
 ##########################
 # Command line arguments #
@@ -62,6 +62,11 @@ flags.DEFINE_integer(
     name="num_epochs",
     default=50,
     help="Number of epochs of training over the whole training set.",
+)
+flags.DEFINE_integer(
+    name="num_mc_samples",
+    default=10,
+    help="Number of Monte Carlo samples used for uncertainty estimation.",
 )
 flags.DEFINE_enum(
     name="uncertainty",
@@ -130,6 +135,7 @@ def main(argv):
   ##############
   dtask.evaluate(functools.partial(predict,
                                    models=classifiers,
+                                   num_samples=FLAGS.num_mc_samples,
                                    type=FLAGS.uncertainty),
                  dataset=ds_test,
                  output_dir=FLAGS.output_dir)

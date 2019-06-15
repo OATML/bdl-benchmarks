@@ -145,3 +145,6 @@ data
 .style.yapf
 Makefile
 matplotlibrc
+
+# ckeckpoints
+baselines/*/*/checkpoints

@@ -76,6 +76,7 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
       output_dir: (optional) `str`, directory to save figures.
       name: (optional) `str`, the name of the method.
     """
+    import inspect
     import tqdm
     import numpy as np
     import tensorflow_datasets as tfds
@@ -89,7 +90,10 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
     y_pred = list()
     y_uncertainty = list()
 
-    for x, y in tqdm.tqdm(tfds.as_numpy(dataset)):
+    # Convert to NumPy iterator if necessary
+    ds = dataset if inspect.isgenerator(dataset) else tfds.as_numpy(dataset)
+
+    for x, y in tqdm.tqdm(ds):
       # Sample from probabilistic model
       mean, uncertainty = estimator(x)
       # Cache predictions
@@ -204,7 +208,8 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
     return [1.0, 4.0]
 
   @classmethod
-  def load(cls, level="realworld", batch_size=64, data_dir=None):
+  def load(cls, level="realworld", batch_size=64, data_dir=None,
+           as_numpy=False):
     """Loads the datasets for the benchmark.
 
     Args:
@@ -212,6 +217,8 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
       batch_size: (optional) `int`, number of datapoints
         per mini-batch.
       data_dir: (optional) `str`, path to parent data directory.
+      as_numpy: (optional) `bool`, if True returns python generators
+        with `numpy.ndarray` outputs.
 
     Returns:
       A namedtuple with properties:
@@ -221,6 +228,7 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
     """
     import numpy as np
     import tensorflow as tf
+    import tensorflow_datasets as tfds
     from ..core.benchmark import DataSplits
     from .tfds_adapter import DiabeticRetinopathyDiagnosis
 
@@ -253,6 +261,12 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
     ds_train = ds_train.prefetch(tf.data.experimental.AUTOTUNE)
     ds_validation = ds_validation.prefetch(tf.data.experimental.AUTOTUNE)
     ds_test = ds_test.prefetch(tf.data.experimental.AUTOTUNE)
+
+    if as_numpy:
+      # Convert to NumPy iterators
+      ds_train = tfds.as_numpy(ds_train)
+      ds_validation = tfds.as_numpy(ds_validation)
+      ds_test = tfds.as_numpy(ds_test)
 
     return DataSplits(ds_train, ds_validation, ds_test)
 

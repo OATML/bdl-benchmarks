@@ -18,6 +18,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+
 def VGGDrop(dropout_rate, num_base_filters, learning_rate, l2_reg, input_shape):
   """VGG-like model with dropout for diabetic retinopathy diagnosis.
   
@@ -36,7 +37,7 @@ def VGGDrop(dropout_rate, num_base_filters, learning_rate, l2_reg, input_shape):
   tfk = tf.keras
   tfkl = tfk.layers
   from bdlb.diabetic_retinopathy_diagnosis.benchmark import DiabeticRetinopathyDiagnosisBecnhmark
-  
+
   # Feedforward neural network
   model = tfk.Sequential([
       tfkl.InputLayer(input_shape),
@@ -162,7 +163,11 @@ def predict(x, model, num_samples, type="entropy"):
     x: `numpy.ndarray`, datapoints from input space,
       with shape [B, H, W, 3], where B the batch size and
       H, W the input images height and width accordingly.
-    model: `lambda x: p(x)`, a probabilistic model.
+    model: `tensorflow.keras.Model`, a probabilistic model,
+      which accepts input with shape [B, H, W, 3] and
+      outputs sigmoid probability [0.0, 1.0], and also
+      accepts boolean arguments `training=True` for enabling
+      dropout at test time.
     num_samples: `int`, number of Monte Carlo samples
       (i.e. forward passes from dropout) used for
       the calculation of predictive mean and uncertainty.
@@ -181,7 +186,8 @@ def predict(x, model, num_samples, type="entropy"):
   B, _, _, _ = x.shape
 
   # Monte Carlo samples from different dropout mask at test time
-  mc_samples = np.asarray([model(x) for _ in range(num_samples)]).reshape(-1, B)
+  mc_samples = np.asarray([model(x, training=True) for _ in range(num_samples)
+                          ]).reshape(-1, B)
 
   # Bernoulli output distribution
   dist = scipy.stats.bernoulli(mc_samples.mean(axis=0))

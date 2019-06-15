@@ -29,9 +29,9 @@ import tensorflow as tf
 tfk = tf.keras
 
 import bdlb
-from model import VGGDrop
-from model import predict
 from bdlb.core import plotting
+from baselines.diabetic_retinopathy_diagnosis.mc_dropout.model import VGGDrop
+from baselines.diabetic_retinopathy_diagnosis.mc_dropout.model import predict
 
 ##########################
 # Command line arguments #

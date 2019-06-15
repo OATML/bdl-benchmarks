@@ -26,7 +26,11 @@ def predict(x, model, num_samples, type="entropy"):
     x: `numpy.ndarray`, datapoints from input space,
       with shape [B, H, W, 3], where B the batch size and
       H, W the input images height and width accordingly.
-    model: `lambda x: p(x)`, a probabilistic model.
+    model: `tensorflow.keras.Model`, a probabilistic model,
+      which accepts input with shape [B, H, W, 3] and
+      outputs sigmoid probability [0.0, 1.0], and also
+      accepts boolean arguments `training=False` for
+      disabling dropout at test time.
     type: (optional) `str`, type of uncertainty returns,
       one of {"entropy", "stddev"}.
   
@@ -39,10 +43,10 @@ def predict(x, model, num_samples, type="entropy"):
   import scipy.stats
 
   # Get shapes of data
-  B, H, W, _ = x.shape
+  B, _, _, _ = x.shape
 
   # Single forward pass from the deterministic model
-  p = model(x)
+  p = model(x, training=False)
 
   # Bernoulli output distribution
   dist = scipy.stats.bernoulli(p)

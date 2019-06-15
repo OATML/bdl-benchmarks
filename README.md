@@ -59,7 +59,7 @@ The models try to predict diabetic retinopathy, and use their uncertainty for *p
 **You can even play with a [colab notebook](notebooks/diabetic_retinopathy_diagnosis.ipynb) to see the workflow of the benchmark**, and contribute your model for others to benchmark against. 
 
 
-## Cita as
+## Cite as
 
 Please cite individual benchmarks when you use these, as well as the baselines you compare against. For the [Diabetic Retinopathy Diagnosis](baselines/diabetic_retinopathy_diagnosis) benchmark please see [here](baselines/diabetic_retinopathy_diagnosis#cite-as).
 

@@ -39,7 +39,7 @@ from bdlb.core import plotting
 FLAGS = flags.FLAGS
 flags.DEFINE_string(
     name="output_dir",
-    default=None,
+    default="/tmp",
     help="Path to store model, tensorboard and report outputs.",
 )
 flags.DEFINE_enum(
