@@ -95,11 +95,17 @@ def leaderboard(
     ValueError("No leaderboard data found at {}".format(benchmark_dir))
 
   # Metrics for which values are stored
-  metrics = os.listdir(benchmark_dir)
+  metrics = [
+      x for x in os.listdir(benchmark_dir)
+      if os.path.isdir(os.path.join(benchmark_dir, x))
+  ]
   for metric in metrics:
     fig, ax = plt.subplots()
     # Iterate over baselines
-    baselines = os.listdir(os.path.join(benchmark_dir, metric))
+    baselines = [
+        x for x in os.listdir(os.path.join(benchmark_dir, metric))
+        if ".csv" in x
+    ]
     for b, baseline in enumerate(baselines):
       baseline = baseline.replace(".csv", "")
       # Fetch results
@@ -159,4 +165,3 @@ def leaderboard(
           dpi=300,
           format="pdf",
       )
-    fig.show()
