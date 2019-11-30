@@ -14,25 +14,34 @@
 # ==============================================================================
 """Benchmarks registry handlers and definitions."""
 
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
+from typing import Dict, Optional, Text, Union
+
+from ..core.benchmark import Benchmark
+from ..core.levels import Level
 from ..diabetic_retinopathy_diagnosis.benchmark import DiabeticRetinopathyDiagnosisBecnhmark
 
 # Internal registry containing <str registered_name, Benchmark subclass>
-_BENCHMARK_REGISTRY = {
+_BENCHMARK_REGISTRY: Dict[Text, Benchmark] = {
     "diabetic_retinopathy_diagnosis": DiabeticRetinopathyDiagnosisBecnhmark
 }
 
 
-def load(benchmark,
-         level=None,
-         data_dir=None,
-         download_and_prepare=True,
-         **dtask_kwargs):
+def load(
+    benchmark: Text,
+    level: Union[Text, Level] = "realworld",
+    data_dir: Optional[Text] = None,
+    download_and_prepare: bool = True,
+    **dtask_kwargs,
+) -> Benchmark:
   """Loads the named benchmark into a `bdlb.Benchmark`.
   
   Args:
     benchmark: `str`, the registerd name of `bdlb.Benchmark`.
-    level: `bdlb.Level` or `str` (optional), which level of the
-      benchmark to load. If None, will return the realworld level.
+    level: `bdlb.Level` or `str`, which level of the benchmark to load.
     data_dir: `str` (optional), directory to read/write data.
       Defaults to "~/.bdlb/data".
     download_and_prepare: (optional) `bool`, if the data is not available
@@ -52,13 +61,14 @@ def load(benchmark,
       level=level,
       data_dir=data_dir,
       download_and_prepare=download_and_prepare,
-      **dtask_kwargs)
+      **dtask_kwargs,
+  )
 
 
 class BenchmarkNotFoundError(ValueError):
   """The requested `bdlb.Benchmark` was not found."""
 
-  def __init__(self, name):
+  def __init__(self, name: Text):
     all_denchmarks_str = "\n\t- ".join([""] + list(_BENCHMARK_REGISTRY.keys()))
     error_str = (
         "Benchmark {name} not found. Available denchmarks: {benchmarks}\n",

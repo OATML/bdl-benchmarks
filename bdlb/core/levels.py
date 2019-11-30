@@ -19,6 +19,7 @@ from __future__ import division
 from __future__ import print_function
 
 import enum
+from typing import Text
 
 
 class Level(enum.IntEnum):
@@ -43,8 +44,15 @@ class Level(enum.IntEnum):
   REALWORLD = 2
 
   @classmethod
-  def from_str(cls, strvalue):
-    """Parses a string value (`strvalue`) to ``Level``."""
+  def from_str(cls, strvalue: Text) -> "Level":
+    """Parses a string value to ``Level``.
+    
+    Args:
+      strvalue: `str`, the level in string format.
+    
+    Returns:
+      The `IntEnum` ``Level`` object.
+    """
     strvalue = strvalue.lower()
     if strvalue == "toy":
       return cls.TOY

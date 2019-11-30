@@ -20,25 +20,22 @@ from __future__ import print_function
 
 import collections
 
+from .levels import Level
 
-class BenchmarkInfo(
-    collections.namedtuple("BenchmarkInfo", [
-        "description",
-        "urls",
-        "setup",
-        "citation",
-    ])):
-  """Abstract class for benchmark information."""
-  pass
+# Abstract class for benchmark information.
+BenchmarkInfo = collections.namedtuple("BenchmarkInfo", [
+    "description",
+    "urls",
+    "setup",
+    "citation",
+])
 
-
-class DataSplits(
-    collections.namedtuple("DataSplits", [
-        "train",
-        "validation",
-        "test",
-    ])):
-  pass
+# Container for train, validation and test sets.
+DataSplits = collections.namedtuple("DataSplits", [
+    "train",
+    "validation",
+    "test",
+])
 
 
 class Benchmark(object):
@@ -49,11 +46,11 @@ class Benchmark(object):
     raise NotImplementedError()
 
   @property
-  def info(self):
+  def info(self) -> BenchmarkInfo:
     """Text description of the benchmark."""
     raise NotImplementedError()
 
   @property
-  def level(self):
+  def level(self) -> Level:
     """The downstream task level."""
     raise NotImplementedError()

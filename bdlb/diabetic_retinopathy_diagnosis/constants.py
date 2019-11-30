@@ -14,18 +14,6 @@
 # ==============================================================================
 """Default values for some parameters of the API when no values are passed."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
-import os
-
-# Root directory of the BDL Benchmarks module.
-BDLB_ROOT_DIR: str = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), os.path.pardir, os.path.pardir))
-
-# Directory where to store processed datasets.
-DATA_DIR: str = os.path.join(BDLB_ROOT_DIR, "data")
-
-# URL to hosted assets
-LEADERBOARD_DIR_URL: str = "https://drive.google.com/uc?id=1LQeAfqMQa4lot09qAuzWa3t6attmCeG-"
+# URL to medium datasets
+DIABETIC_RETINOPATHY_DIAGNOSIS_URL_MEDIUM: str = "https://drive.google.com/uc?id=1CLOOAkJU7E3Ritxmm8PgNVBejLVC8-lc"
+DIABETIC_RETINOPATHY_DIAGNOSIS_URL_REALWORLD: str = "https://drive.google.com/uc?id=17P30eUR98LtviYmpOFQX7MY5WsTF1bVL"

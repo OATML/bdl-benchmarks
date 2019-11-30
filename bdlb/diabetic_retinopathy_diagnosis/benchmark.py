@@ -20,12 +20,18 @@ from __future__ import print_function
 
 import os
 import collections
+from typing import Callable, Dict, Optional, Sequence, Text, Tuple, Union
 
 from absl import logging
+import numpy as np
+import pandas as pd
+import tensorflow as tf
+tfk = tf.keras
 
 from ..core.levels import Level
 from ..core.constants import DATA_DIR
 from ..core.benchmark import Benchmark
+from ..core.benchmark import DataSplits
 from ..core.benchmark import BenchmarkInfo
 from ..core import transforms
 
@@ -36,11 +42,13 @@ _DIABETIC_RETINOPATHY_DIAGNOSIS_DATA_DIR = os.path.join(
 class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
   """Diabetic retinopathy diagnosis benchmark class."""
 
-  def __init__(self,
-               level,
-               batch_size=64,
-               data_dir=None,
-               download_and_prepare=False):
+  def __init__(
+      self,
+      level: Union[Text, Level],
+      batch_size: int = 64,
+      data_dir: Optional[Text] = None,
+      download_and_prepare: bool = False,
+  ):
     """Constructs a benchmark object.
     
     Args:
@@ -66,7 +74,13 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
         self.download_and_prepare()
 
   @classmethod
-  def evaluate(cls, estimator, dataset, output_dir=None, name=None):
+  def evaluate(
+      cls,
+      estimator: Callable[[np.ndarray], Tuple[np.ndarray, np.ndarray]],
+      dataset: tf.data.Dataset,
+      output_dir: Optional[Text] = None,
+      name: Optional[Text] = None,
+  ) -> Dict[Text, float]:
     """Evaluates an `estimator` on the `mode` benchmark dataset.
     
     Args:
@@ -78,12 +92,10 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
     """
     import inspect
     import tqdm
-    import numpy as np
     import tensorflow_datasets as tfds
     from sklearn.metrics import roc_auc_score
     from sklearn.metrics import accuracy_score
     import matplotlib.pyplot as plt
-    COLORS = plt.rcParams['axes.prop_cycle'].by_key()['color']
 
     # Containers used for caching performance evaluation
     y_true = list()
@@ -122,12 +134,14 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
     }
 
   @staticmethod
-  def _evaluate_metric(y_true,
-                       y_pred,
-                       y_uncertainty,
-                       fractions,
-                       metric_fn,
-                       name=None):
+  def _evaluate_metric(
+      y_true: np.ndarray,
+      y_pred: np.ndarray,
+      y_uncertainty: np.ndarray,
+      fractions: Sequence[float],
+      metric_fn: Callable[[np.ndarray, np.ndarray], float],
+      name=None,
+  ) -> pd.DataFrame:
     """Evaluate model predictive distribution on `metric_fn`
     at data retain `fractions`.
     
@@ -147,8 +161,6 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
       A `pandas.DataFrame` with columns ["retained_data", "mean", "std"],
       that summarizes the scores at different data retained fractions.
     """
-    import numpy as np
-    import pandas as pd
 
     N = y_true.shape[0]
 
@@ -173,43 +185,44 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
     return df
 
   @property
-  def datasets(self):
+  def datasets(self) -> tf.data.Dataset:
     """Pointer to the processed datasets."""
     return self.__ds
 
   @property
-  def info(self):
+  def info(self) -> BenchmarkInfo:
     """Text description of the benchmark."""
     return BenchmarkInfo(description="", urls="", setup="", citation="")
 
   @property
-  def level(self):
+  def level(self) -> Level:
     """The downstream task level."""
     return self.__level
 
   @staticmethod
-  def loss():
+  def loss() -> tfk.losses.Loss:
     """Loss used for training binary classifiers."""
-    import tensorflow as tf
-    tfk = tf.keras
     return tfk.losses.BinaryCrossentropy()
 
   @staticmethod
-  def metrics():
+  def metrics() -> tfk.metrics.Metric:
     """Evaluation metrics used for monitoring training."""
-    import tensorflow as tf
-    tfk = tf.keras
     return [tfk.metrics.BinaryAccuracy(), tfk.metrics.AUC()]
 
   @staticmethod
-  def class_weight():
+  def class_weight() -> Sequence[float]:
     """Class weights used for rebalancing the dataset,
     by skewing the `loss` accordingly."""
     return [1.0, 4.0]
 
   @classmethod
-  def load(cls, level="realworld", batch_size=64, data_dir=None,
-           as_numpy=False):
+  def load(
+      cls,
+      level: Union[Text, Level] = "realworld",
+      batch_size: int = 64,
+      data_dir: Optional[Text] = None,
+      as_numpy: bool = False,
+  ) -> DataSplits:
     """Loads the datasets for the benchmark.
 
     Args:
@@ -226,10 +239,7 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
         * validation: `tf.data.Dataset`, validation dataset.
         * test: `tf.data.Dataset`, test dataset.
     """
-    import numpy as np
-    import tensorflow as tf
     import tensorflow_datasets as tfds
-    from ..core.benchmark import DataSplits
     from .tfds_adapter import DiabeticRetinopathyDiagnosis
 
     # Fetch datasets
@@ -271,7 +281,7 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
     return DataSplits(ds_train, ds_validation, ds_test)
 
   @classmethod
-  def download_and_prepare(cls, levels=None):
+  def download_and_prepare(cls, levels=None) -> None:
     """Downloads dataset from Kaggle, extracts zip files
     and processes it using `tensorflow_datasets`.
     
@@ -286,12 +296,12 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
     # Disable GPU for data download, extraction and preparation
     import os
     os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
-    cls._download()
-    cls._extract()
+    # cls._download()
+    # cls._extract()
     cls._prepare(levels)
 
   @staticmethod
-  def _download():
+  def _download() -> None:
     """Downloads data from Kaggle using `tensorflow_datasets`.
     
     Raises:
@@ -321,7 +331,7 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
           " page that the button does not pop up again).")
 
   @staticmethod
-  def _extract():
+  def _extract() -> None:
     """Extracts zip files downloaded from Kaggle."""
     import glob
     import tqdm
@@ -361,7 +371,7 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
       os.remove(zfname)
 
   @staticmethod
-  def _prepare(levels=None):
+  def _prepare(levels=None) -> None:
     """Generates the TFRecord objects for medium and realworld experiments."""
     import multiprocessing
     from absl import logging
@@ -373,12 +383,9 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
       dtask.download_and_prepare()
 
   @classmethod
-  def _preprocessors(cls):
+  def _preprocessors(cls) -> Tuple[transforms.Transform, transforms.Transform]:
     """Applies transformations to the raw data."""
-    import numpy as np
-    import tensorflow as tf
     import tensorflow_datasets as tfds
-    cv2 = tfds.core.lazy_imports.cv2
 
     # Transformation hyperparameters
     mean = np.asarray([0.42606387, 0.29752496, 0.21309826])
@@ -387,7 +394,7 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
     class Parse(transforms.Transform):
       """Parses datapoints from raw `tf.data.Dataset`."""
 
-      def __call__(self, x):
+      def __call__(self, x, y=None):
         """Returns `as_supervised` tuple."""
         return x["image"], x["label"]
 

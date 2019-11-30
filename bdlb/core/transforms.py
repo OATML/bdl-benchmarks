@@ -18,50 +18,51 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+from typing import Optional, Sequence, Tuple
+
+import numpy as np
 import tensorflow as tf
 
 
 class Transform(object):
   """Abstract transformation class."""
 
-  def __call__(self):
+  def __call__(
+      self,
+      x: tf.Tensor,
+      y: Optional[tf.Tensor] = None,
+  ) -> Tuple[tf.Tensor, tf.Tensor]:
     raise NotImplementedError()
 
 
 class Compose(Transform):
   """Uber transformation, composing a list of transformations."""
 
-  def __init__(self, trans):
+  def __init__(self, transforms: Sequence[Transform]):
     """Constructs a composition of transformations.
     
     Args:
-      trans: `iterable`, sequence of transformations to be composed.
+      transforms: `iterable`, sequence of transformations to be composed.
     """
-    self.trans = trans
+    self.transforms = transforms
 
-  def __call__(self, x):
+  def __call__(
+      self,
+      x: tf.Tensor,
+      y: Optional[tf.Tensor] = None,
+  ) -> Tuple[tf.Tensor, tf.Tensor]:
     """Returns a composite function of transformations.
     
     Args:
       x: `any`, raw data format.
+      y: `optional`, raw data format.
     
     Returns:
       A composite function to be used with `tf.data.Dataset.map()`.
     """
-    import inspect
-    for f in self.trans:
-      nargs = len(inspect.signature(f).parameters)
-      if "y" in locals():
-        x, y = f(x, y)
-      else:
-        if nargs == 1:
-          x = f(x)
-        else:
-          x, y = f(x[0], x[1])
-    if "y" in locals():
-      return x, y
-    else:
-      return x
+    for f in self.transforms:
+      x, y = f(x, y)
+    return x, y
 
 
 class RandomAugment(Transform):
@@ -75,7 +76,7 @@ class RandomAugment(Transform):
     """
     self.idg = tf.keras.preprocessing.image.ImageDataGenerator(**config)
 
-  def __call__(self, x, y):
+  def __call__(self, x: tf.Tensor, y: tf.Tensor) -> Tuple[tf.Tensor, tf.Tensor]:
     """Returns a randomly augmented image and its label.
     
     Args:
@@ -91,7 +92,7 @@ class RandomAugment(Transform):
     """
     return tf.py_function(self._transform, inp=[x], Tout=tf.float32), y
 
-  def _transform(self, x):
+  def _transform(self, x: tf.Tensor) -> tf.Tensor:
     """Helper function for `tensorflow.py_function`, will
     be removed when TensorFlow 2.0 is released."""
     return tf.cast(self.idg.random_transform(x.numpy()), tf.float32)
@@ -99,7 +100,7 @@ class RandomAugment(Transform):
 
 class Resize(Transform):
 
-  def __init__(self, target_height, target_width):
+  def __init__(self, target_height: int, target_width: int):
     """Constructs an image resizer.
     
     Args:
@@ -109,16 +110,16 @@ class Resize(Transform):
     self.target_height = target_height
     self.target_width = target_width
 
-  def __call__(self, x, y):
+  def __call__(self, x: tf.Tensor, y: tf.Tensor) -> Tuple[tf.Tensor, tf.Tensor]:
     """Returns a resized image."""
     return tf.image.resize(x, size=[self.target_height, self.target_width]), y
 
 
 class Normalize(Transform):
 
-  def __init__(self, loc, scale):
+  def __init__(self, loc: np.ndarray, scale: np.ndarray):
     self.loc = loc
     self.scale = scale
 
-  def __call__(self, x, y):
+  def __call__(self, x: tf.Tensor, y: tf.Tensor) -> Tuple[tf.Tensor, tf.Tensor]:
     return (x - self.loc) / self.scale, y

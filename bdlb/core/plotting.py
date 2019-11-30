@@ -14,8 +14,24 @@
 # ==============================================================================
 """Helper functions for visualization."""
 
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
 
-def tfk_history(history, output_dir=None, **ax_set_kwargs):
+import os
+from typing import Dict, Optional, Text
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import tensorflow as tf
+tfk = tf.keras
+
+
+def tfk_history(
+    history: tfk.callbacks.History,
+    output_dir: Optional[Text] = None,
+    **ax_set_kwargs,
+):
   """Visualization of `tensorflow.keras.callbacks.History`,
   similar to `TensorBoard`, in train and validation.
   
@@ -25,10 +41,6 @@ def tfk_history(history, output_dir=None, **ax_set_kwargs):
     output_dir: (optional) `str`, the directory name to
       store the figures.
   """
-  import os
-  import tensorflow as tf
-  tfk = tf.keras
-  import matplotlib.pyplot as plt
   if not isinstance(history, tfk.callbacks.History):
     raise TypeError("`history` was expected to be of type "
                     "`tensorflow.keras.callbacks.History`, "
@@ -42,18 +54,22 @@ def tfk_history(history, output_dir=None, **ax_set_kwargs):
     fig.tight_layout()
     if isinstance(output_dir, str):
       os.makedirs(output_dir, exist_ok=True)
-      fig.savefig(os.path.join(output_dir, "{}.pdf".format(metric)),
-                  trasparent=True,
-                  dpi=300,
-                  format="pdf")
+      fig.savefig(
+          os.path.join(output_dir, "{}.pdf".format(metric)),
+          trasparent=True,
+          dpi=300,
+          format="pdf",
+      )
     fig.show()
 
 
-def leaderboard(benchmark,
-                results=None,
-                output_dir=None,
-                leaderboard_dir=None,
-                **ax_set_kwargs):
+def leaderboard(
+    benchmark: Text,
+    results: Optional[Dict[Text, pd.DataFrame]] = None,
+    output_dir: Optional[Text] = None,
+    leaderboard_dir: Optional[Text] = None,
+    **ax_set_kwargs,
+):
   """Generates a leaderboard for all metrics in `benchmark`,
   by appending the (optional) `results`.
   
@@ -67,9 +83,6 @@ def leaderboard(benchmark,
     output_dir: (optional) `str`, the directory name to
       store the figures.
   """
-  import os
-  import pandas as pd
-  import matplotlib.pyplot as plt
   from .constants import BDLB_ROOT_DIR
   COLORS = plt.rcParams['axes.prop_cycle'].by_key()['color']
   MARKERS = ["o", "D", "s", "8", "^", "*"]
@@ -97,16 +110,20 @@ def leaderboard(benchmark,
       mean = df["mean"]
       std = df["std"]
       # Visualize mean with standard error
-      ax.plot(retained_data,
-              mean,
-              label=baseline,
-              color=COLORS[b % len(COLORS)],
-              marker=MARKERS[b % len(MARKERS)])
-      ax.fill_between(retained_data,
-                      mean - std,
-                      mean + std,
-                      color=COLORS[b % len(COLORS)],
-                      alpha=0.25)
+      ax.plot(
+          retained_data,
+          mean,
+          label=baseline,
+          color=COLORS[b % len(COLORS)],
+          marker=MARKERS[b % len(MARKERS)],
+      )
+      ax.fill_between(
+          retained_data,
+          mean - std,
+          mean + std,
+          color=COLORS[b % len(COLORS)],
+          alpha=0.25,
+      )
     if results is not None:
       # Plot results from dictionary
       if metric in results:
@@ -117,23 +134,29 @@ def leaderboard(benchmark,
         mean = df["mean"]
         std = df["std"]
         # Visualize mean with standard error
-        ax.plot(retained_data,
-                mean,
-                label=baseline,
-                color=COLORS[(b + 1) % len(COLORS)],
-                marker=MARKERS[(b + 1) % len(MARKERS)])
-        ax.fill_between(retained_data,
-                        mean - std,
-                        mean + std,
-                        color=COLORS[(b + 1) % len(COLORS)],
-                        alpha=0.25)
+        ax.plot(
+            retained_data,
+            mean,
+            label=baseline,
+            color=COLORS[(b + 1) % len(COLORS)],
+            marker=MARKERS[(b + 1) % len(MARKERS)],
+        )
+        ax.fill_between(
+            retained_data,
+            mean - std,
+            mean + std,
+            color=COLORS[(b + 1) % len(COLORS)],
+            alpha=0.25,
+        )
     ax.set(xlabel="retained data", ylabel=metric)
     ax.legend()
     fig.tight_layout()
     if isinstance(output_dir, str):
       os.makedirs(output_dir, exist_ok=True)
-      fig.savefig(os.path.join(output_dir, "{}.pdf".format(metric)),
-                  trasparent=True,
-                  dpi=300,
-                  format="pdf")
+      fig.savefig(
+          os.path.join(output_dir, "{}.pdf".format(metric)),
+          trasparent=True,
+          dpi=300,
+          format="pdf",
+      )
     fig.show()

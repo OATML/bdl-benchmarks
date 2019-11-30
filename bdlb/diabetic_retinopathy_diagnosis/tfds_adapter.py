@@ -17,6 +17,7 @@ import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 import io
 import csv
+from typing import Sequence
 
 import numpy as np
 import tensorflow as tf
@@ -27,12 +28,14 @@ cv2 = tfds.core.lazy_imports.cv2
 class DiabeticRetinopathyDiagnosisConfig(tfds.core.BuilderConfig):
   """BuilderConfig for DiabeticRetinopathyDiagnosis."""
 
-  def __init__(self,
-               target_height,
-               target_width,
-               crop=False,
-               scale=500,
-               **kwargs):
+  def __init__(
+      self,
+      target_height: int,
+      target_width: int,
+      crop: bool = False,
+      scale: int = 500,
+      **kwargs,
+  ):
     """BuilderConfig for DiabeticRetinopathyDiagnosis.
     
     Args:
@@ -48,21 +51,21 @@ class DiabeticRetinopathyDiagnosisConfig(tfds.core.BuilderConfig):
     self._scale = scale
 
   @property
-  def target_height(self):
+  def target_height(self) -> int:
     return self._target_height
 
   @property
-  def target_width(self):
+  def target_width(self) -> int:
     return self._target_width
 
   @property
-  def scale(self):
+  def scale(self) -> int:
     return self._scale
 
 
 class DiabeticRetinopathyDiagnosis(tfds.image.DiabeticRetinopathyDetection):
 
-  BUILDER_CONFIGS = [
+  BUILDER_CONFIGS: Sequence[DiabeticRetinopathyDiagnosisConfig] = [
       DiabeticRetinopathyDiagnosisConfig(
           name="medium",
           version="0.0.1",
@@ -79,7 +82,7 @@ class DiabeticRetinopathyDiagnosis(tfds.image.DiabeticRetinopathyDetection):
       ),
   ]
 
-  def _info(self):
+  def _info(self) -> tfds.core.DatasetInfo:
     return tfds.core.DatasetInfo(
         builder=self,
         description="A large set of high-resolution retina images taken under "
@@ -89,14 +92,15 @@ class DiabeticRetinopathyDiagnosis(tfds.image.DiabeticRetinopathyDetection):
             self.builder_config.target_width),
         features=tfds.features.FeaturesDict({
             "name":
-            tfds.features.Text(),  # patient ID + eye. eg: "4_left".
+                tfds.features.Text(),  # patient ID + eye. eg: "4_left".
             "image":
-            tfds.features.Image(shape=(self.builder_config.target_height,
-                                       self.builder_config.target_width, 3)),
+                tfds.features.Image(shape=(self.builder_config.target_height,
+                                           self.builder_config.target_width, 3)
+                                   ),
             # 0: (no DR)
             # 1: (with DR)
             "label":
-            tfds.features.ClassLabel(num_classes=2),
+                tfds.features.ClassLabel(num_classes=2),
         }),
         urls=["https://www.kaggle.com/c/diabetic-retinopathy-detection/data"],
         citation=tfds.image.diabetic_retinopathy_detection._CITATION,
@@ -127,26 +131,33 @@ class DiabeticRetinopathyDiagnosis(tfds.image.DiabeticRetinopathyDetection):
               for fname in tf.io.gfile.listdir(images_dir_path)
               if fname.endswith(".jpeg")]
     for name, label in data:
-      yield {
+      record = {
           "name":
-          name,
+              name,
           "image":
-          self._preprocess(tf.io.gfile.GFile("%s/%s.jpeg" %
-                                             (images_dir_path, name),
-                                             mode="rb"),
-                           target_height=self.builder_config.target_height,
-                           target_width=self.builder_config.target_width),
+              self._preprocess(
+                  tf.io.gfile.GFile("%s/%s.jpeg" % (images_dir_path, name),
+                                    mode="rb"),
+                  target_height=self.builder_config.target_height,
+                  target_width=self.builder_config.target_width,
+              ),
           "label":
-          int(label > 1),
+              int(label > 1),
       }
+      if self.version.implements(tfds.core.Experiment.S3):
+        yield name, record
+      else:
+        yield record
 
   @classmethod
-  def _preprocess(cls,
-                  image_fobj,
-                  target_height,
-                  target_width,
-                  crop=False,
-                  scale=500):
+  def _preprocess(
+      cls,
+      image_fobj,
+      target_height: int,
+      target_width: int,
+      crop: bool = False,
+      scale: int = 500,
+  ) -> io.BytesIO:
     """Resize an image to have (roughly) the given number of target pixels.
 
     Args:
@@ -189,7 +200,7 @@ class DiabeticRetinopathyDiagnosis(tfds.image.DiabeticRetinopathyDetection):
     return io.BytesIO(buff.tostring())
 
   @staticmethod
-  def _get_radius(img, scale):
+  def _get_radius(img: np.ndarray, scale: int) -> np.ndarray:
     """Returns radius of the circle to use.
       
     Args:
