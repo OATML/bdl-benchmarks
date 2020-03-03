@@ -104,15 +104,17 @@ The baseline results we evaluated on this benchmark are ranked below by AUC@50% 
 
 ## Cite as
 
-> Angelos Filos, Sebastian Farquhar, Aidan N. Gomez, Tim G. J. Rudner, Zachary Kenton, Lewis Smith, Milad Alizadeh, Arnoud de Kroon & Yarin Gal. _Benchmarking Bayesian Deep Learning with Diabetic Retinopathy Diagnosis_, 2018. URL [http://www.cs.ox.ac.uk/people/angelos.filos/publications/diabetic_retinopathy_diagnosis.pdf](http://www.cs.ox.ac.uk/people/angelos.filos/publications/diabetic_retinopathy_diagnosis.pdf).
+> [**A Systematic Comparison of Bayesian Deep Learning Robustness in Diabetic Retinopathy Tasks**](https://arxiv.org/abs/1912.10481)                    
+> Angelos Filos, Sebastian Farquhar, Aidan N. Gomez, Tim G. J. Rudner, Zachary Kenton, Lewis Smith, Milad Alizadeh, Arnoud de Kroon & Yarin Gal                      
+> [Bayesian Deep Learning Workshop @ NeurIPS 2019](http://bayesiandeeplearning.org/) (BDL2019)          
+> _arXiv 1912.10481_
 
 ```
-@misc{oatml2019bdlb,
-  title={Benchmarking Bayesian Deep Learning with Diabetic Retinopathy Diagnosis},
-  author={Filos, Angelos and Farquhar, Sebastian and Gomez, Aidan N. and Rudner, Tim G. J. and Kenton, Zachary and Smith, Lewis and Alizadeh, Milad and de Kroon, Arnoud and Gal, Yarin},
-  year={2019},
-  publisher={GitHub},
-  howpublished={\url{https://github.com/OATML/bdl-benchmarks}},
+@article{filos2019systematic,
+  title={A Systematic Comparison of Bayesian Deep Learning Robustness in Diabetic Retinopathy Tasks},
+  author={Filos, Angelos and Farquhar, Sebastian and Gomez, Aidan N and Rudner, Tim GJ and Kenton, Zachary and Smith, Lewis and Alizadeh, Milad and de Kroon, Arnoud and Gal, Yarin},
+  journal={arXiv preprint arXiv:1912.10481},
+  year={2019}
 }
 ```
 Please cite individual baselines you compare to as well:
