@@ -34,7 +34,6 @@ from model import predict
 
 tfk = tf.keras
 
-
 ##########################
 # Command line arguments #
 ##########################

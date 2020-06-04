@@ -34,7 +34,6 @@ from bdlb.core import plotting
 
 tfk = tf.keras
 
-
 ##########################
 # Command line arguments #
 ##########################

@@ -96,9 +96,11 @@ class DiabeticRetinopathyDiagnosis(tfds.image.DiabeticRetinopathyDetection):
             "name":
                 tfds.features.Text(),  # patient ID + eye. eg: "4_left".
             "image":
-                tfds.features.Image(shape=(self.builder_config.target_height,
-                                           self.builder_config.target_width, 3)
-                                   ),
+                tfds.features.Image(shape=(
+                    self.builder_config.target_height,
+                    self.builder_config.target_width,
+                    3,
+                )),
             # 0: (no DR)
             # 1: (with DR)
             "label":
@@ -146,10 +148,8 @@ class DiabeticRetinopathyDiagnosis(tfds.image.DiabeticRetinopathyDetection):
           "label":
               int(label > 1),
       }
-      if self.version.implements(tfds.core.Experiment.S3):
-        yield name, record
-      else:
-        yield record
+
+      yield record
 
   @classmethod
   def _preprocess(
