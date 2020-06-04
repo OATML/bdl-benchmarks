@@ -14,7 +14,9 @@
 # ==============================================================================
 
 import os
-from setuptools import setup, find_packages
+
+from setuptools import find_packages
+from setuptools import setup
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -24,7 +26,7 @@ with open(os.path.join(here, "README.md"), encoding="utf-8") as f:
 
 setup(
     name="bdlb",
-    version="0.0.1",
+    version="0.0.2",
     description="BDL Benchmarks",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -34,17 +36,17 @@ setup(
     license="Apache-2.0",
     packages=find_packages(),
     install_requires=[
-        "numpy==1.17.2",
-        "scipy==1.3.1",
-        "pandas==0.25.1",
-        "matplotlib==3.1.1",
-        "seaborn==0.9.0",
+        "numpy==1.18.5",
+        "scipy==1.4.1",
+        "pandas==1.0.4",
+        "matplotlib==3.2.1",
+        "seaborn==0.10.1",
         "scikit-learn==0.21.3",
         "kaggle==1.5.6",
-        "opencv-python==4.1.1.26",
-        "tensorflow-gpu==2.0.0",
-        "tensorflow-probability==0.8.0",
-        "tensorflow-datasets==1.2.0",
+        "opencv-python==4.2.0.34",
+        "tensorflow-gpu==2.0.0-beta0",
+        "tensorflow-probability==0.7.0",
+        "tensorflow-datasets==1.1.0",
     ],
     classifiers=[
         "Development Status :: 3 - Alpha",
