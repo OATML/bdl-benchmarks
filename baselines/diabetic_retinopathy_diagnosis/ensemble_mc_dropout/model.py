@@ -21,7 +21,7 @@ from __future__ import print_function
 
 def predict(x, models, num_samples, type="entropy"):
   """Deep Ensembles uncertainty estimator.
-    
+
   Args:
     x: `numpy.ndarray`, datapoints from input space,
       with shape [B, H, W, 3], where B the batch size and
@@ -36,7 +36,7 @@ def predict(x, models, num_samples, type="entropy"):
       [B, H, W, 3] and outputs sigmoid probability [0.0, 1.0],
       and also accepts boolean arguments `training=True` for
       enabling dropout at test time.
-  
+
   Returns:
     mean: `numpy.ndarray`, predictive mean, with shape [B].
     uncertainty: `numpy.ndarray`, ncertainty in prediction,

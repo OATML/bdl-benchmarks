@@ -12,26 +12,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-"""Script for training and evaluating Mean-Field Variational Inference
-baseline for Diabetic Retinopathy Diagnosis benchmark."""
+"""Script for training and evaluating Mean-Field Variational Inference baseline
+for Diabetic Retinopathy Diagnosis benchmark."""
 
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import os
 import functools
+import os
 
+import tensorflow as tf
 from absl import app
 from absl import flags
 from absl import logging
-import tensorflow as tf
-tfk = tf.keras
 
 import bdlb
+from bdlb.core import plotting
 from model import VGGFlipout
 from model import predict
-from bdlb.core import plotting
+
+tfk = tf.keras
+
 
 ##########################
 # Command line arguments #

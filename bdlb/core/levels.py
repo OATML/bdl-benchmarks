@@ -24,7 +24,7 @@ from typing import Text
 
 class Level(enum.IntEnum):
   """Downstream task levels.
-  
+
   TOY: Fewer examples and drastically reduced input dimensionality.
     This version is intended for sanity checks and debugging only.
     Training on a modern CPU should take five to ten minutes.
@@ -46,10 +46,10 @@ class Level(enum.IntEnum):
   @classmethod
   def from_str(cls, strvalue: Text) -> "Level":
     """Parses a string value to ``Level``.
-    
+
     Args:
       strvalue: `str`, the level in string format.
-    
+
     Returns:
       The `IntEnum` ``Level`` object.
     """

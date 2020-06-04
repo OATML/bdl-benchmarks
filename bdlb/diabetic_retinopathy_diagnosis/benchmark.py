@@ -18,22 +18,29 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import os
 import collections
-from typing import Callable, Dict, Optional, Sequence, Text, Tuple, Union
+import os
+from typing import Callable
+from typing import Dict
+from typing import Optional
+from typing import Sequence
+from typing import Text
+from typing import Tuple
+from typing import Union
 
-from absl import logging
 import numpy as np
 import pandas as pd
 import tensorflow as tf
-tfk = tf.keras
+from absl import logging
 
-from ..core.levels import Level
-from ..core.constants import DATA_DIR
-from ..core.benchmark import Benchmark
-from ..core.benchmark import DataSplits
-from ..core.benchmark import BenchmarkInfo
 from ..core import transforms
+from ..core.benchmark import Benchmark
+from ..core.benchmark import BenchmarkInfo
+from ..core.benchmark import DataSplits
+from ..core.constants import DATA_DIR
+from ..core.levels import Level
+
+tfk = tf.keras
 
 _DIABETIC_RETINOPATHY_DIAGNOSIS_DATA_DIR = os.path.join(
     DATA_DIR, "downloads", "manual", "diabetic_retinopathy_diagnosis")
@@ -50,7 +57,7 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
       download_and_prepare: bool = False,
   ):
     """Constructs a benchmark object.
-    
+
     Args:
       level: `Level` or `str, downstream task level.
       batch_size: (optional) `int`, number of datapoints
@@ -82,7 +89,7 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
       name: Optional[Text] = None,
   ) -> Dict[Text, float]:
     """Evaluates an `estimator` on the `mode` benchmark dataset.
-    
+
     Args:
       estimator: `lambda x: mu_x, uncertainty_x`, an uncertainty estimation
         function, which returns `mean_x` and predictive `uncertainty_x`.
@@ -142,9 +149,9 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
       metric_fn: Callable[[np.ndarray, np.ndarray], float],
       name=None,
   ) -> pd.DataFrame:
-    """Evaluate model predictive distribution on `metric_fn`
-    at data retain `fractions`.
-    
+    """Evaluate model predictive distribution on `metric_fn` at data retain
+    `fractions`.
+
     Args:
       y_true: `numpy.ndarray`, the ground truth labels, with shape [N].
       y_pred: `numpy.ndarray`, the model predictions, with shape [N].
@@ -211,8 +218,8 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
 
   @staticmethod
   def class_weight() -> Sequence[float]:
-    """Class weights used for rebalancing the dataset,
-    by skewing the `loss` accordingly."""
+    """Class weights used for rebalancing the dataset, by skewing the `loss`
+    accordingly."""
     return [1.0, 4.0]
 
   @classmethod
@@ -282,30 +289,30 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
 
   @classmethod
   def download_and_prepare(cls, levels=None) -> None:
-    """Downloads dataset from Kaggle, extracts zip files
-    and processes it using `tensorflow_datasets`.
-    
+    """Downloads dataset from Kaggle, extracts zip files and processes it using
+    `tensorflow_datasets`.
+
     Args:
       levels: (optional) `iterable` of `str`, specifies which
         levels from {'medium', 'realworld'} to prepare,
         if None it prepares all the levels.
 
     Raises:
-      OSError: if `~/.kaggle/kaggle.json` is not set up. 
+      OSError: if `~/.kaggle/kaggle.json` is not set up.
     """
     # Disable GPU for data download, extraction and preparation
     import os
     os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
-    # cls._download()
+    cls._download()
     # cls._extract()
-    cls._prepare(levels)
+    #cls._prepare(levels)
 
   @staticmethod
   def _download() -> None:
     """Downloads data from Kaggle using `tensorflow_datasets`.
-    
+
     Raises:
-      OSError: if `~/.kaggle/kaggle.json` is not set up. 
+      OSError: if `~/.kaggle/kaggle.json` is not set up.
     """
     import subprocess as sp
     import tensorflow_datasets as tfds
@@ -406,7 +413,8 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
         self.dtype = dtype
 
       def __call__(self, x, y):
-        """Returns casted image (to `dtype`) and its (unchanged) label as tuple."""
+        """Returns casted image (to `dtype`) and its (unchanged) label as
+        tuple."""
         return tf.cast(x, self.dtype), y
 
     class To01X(transforms.Transform):
@@ -444,9 +452,11 @@ class DiabeticRetinopathyDiagnosisBecnhmark(Benchmark):
 
   @staticmethod
   def _ImageDataGenerator_config():
-    """Returns the configs for the `tensorflow.keras.preprocessing.image.ImageDataGenerator`,
-    used for the random augmentation of the dataset, following the implementation of
-    https://github.com/chleibig/disease-detection/blob/f3401b26aa9b832ff77afe93e3faa342f7d088e5/scripts/inspect_data_augmentation.py."""
+    """Returns the configs for the
+    `tensorflow.keras.preprocessing.image.ImageDataGenerator`, used for the
+    random augmentation of the dataset, following the implementation of
+    https://github.com/chleibig/disease-detection/blob/f3401b26aa9b832ff77afe93
+    e3faa342f7d088e5/scripts/inspect_data_augmentation.py."""
     augmentation_config = dict(
         featurewise_center=False,
         samplewise_center=False,

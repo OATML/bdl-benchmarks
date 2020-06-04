@@ -19,11 +19,14 @@ from __future__ import division
 from __future__ import print_function
 
 import os
-from typing import Dict, Optional, Text
+from typing import Dict
+from typing import Optional
+from typing import Text
 
-import pandas as pd
 import matplotlib.pyplot as plt
+import pandas as pd
 import tensorflow as tf
+
 tfk = tf.keras
 
 
@@ -32,9 +35,9 @@ def tfk_history(
     output_dir: Optional[Text] = None,
     **ax_set_kwargs,
 ):
-  """Visualization of `tensorflow.keras.callbacks.History`,
-  similar to `TensorBoard`, in train and validation.
-  
+  """Visualization of `tensorflow.keras.callbacks.History`, similar to
+  `TensorBoard`, in train and validation.
+
   Args:
     history: `tensorflow.keras.callbacks.History`, the logs of
       training a `tensorflow.keras.Model`.
@@ -70,9 +73,9 @@ def leaderboard(
     leaderboard_dir: Optional[Text] = None,
     **ax_set_kwargs,
 ):
-  """Generates a leaderboard for all metrics in `benchmark`,
-  by appending the (optional) `results`.
-  
+  """Generates a leaderboard for all metrics in `benchmark`, by appending the
+  (optional) `results`.
+
   Args:
     benchmark: `str`, the registerd name of `bdlb.Benchmark`.
     results: (optional) `dict`, dictionary of `pandas.DataFrames`

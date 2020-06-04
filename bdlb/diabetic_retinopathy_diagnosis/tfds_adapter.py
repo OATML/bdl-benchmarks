@@ -13,15 +13,17 @@
 # limitations under the License.
 # ==============================================================================
 
-import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
-import io
 import csv
+import io
+import os
 from typing import Sequence
 
 import numpy as np
 import tensorflow as tf
 import tensorflow_datasets as tfds
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
 cv2 = tfds.core.lazy_imports.cv2
 
 
@@ -37,7 +39,7 @@ class DiabeticRetinopathyDiagnosisConfig(tfds.core.BuilderConfig):
       **kwargs,
   ):
     """BuilderConfig for DiabeticRetinopathyDiagnosis.
-    
+
     Args:
       target_height: `int`, number of pixels in height.
       target_width: `int`, number of pixels in width.
@@ -107,10 +109,10 @@ class DiabeticRetinopathyDiagnosis(tfds.image.DiabeticRetinopathyDetection):
     )
 
   def _generate_examples(self, images_dir_path, csv_path=None, csv_usage=None):
-    """Yields Example instances from given CSV.
-    Applies contrast enhancement as in
-    https://github.com/btgraham/SparseConvNet/tree/kaggle_Diabetic_Retinopathy_competition.
-    Turns the multiclass (i.e. 5 classes) problem to binary classification according to
+    """Yields Example instances from given CSV. Applies contrast enhancement as
+    in https://github.com/btgraham/SparseConvNet/tree/kaggle_Diabetic_Retinopat
+    hy_competition. Turns the multiclass (i.e. 5 classes) problem to binary
+    classification according to
     https://www.nature.com/articles/s41598-017-17876-z.pdf.
 
     Args:
@@ -202,11 +204,11 @@ class DiabeticRetinopathyDiagnosis(tfds.image.DiabeticRetinopathyDetection):
   @staticmethod
   def _get_radius(img: np.ndarray, scale: int) -> np.ndarray:
     """Returns radius of the circle to use.
-      
+
     Args:
       img: `numpy.ndarray`, an image, with shape [height, width, 3].
       scale: `int`, the radius of the neighborhood.
-    
+
     Returns:
       A resized image.
     """

@@ -21,7 +21,7 @@ from __future__ import print_function
 
 def VGGDrop(dropout_rate, num_base_filters, learning_rate, l2_reg, input_shape):
   """VGG-like model with dropout for diabetic retinopathy diagnosis.
-  
+
   Args:
     dropout_rate: `float`, the rate of dropout, between [0.0, 1.0).
     num_base_filters: `int`, number of convolution filters in the
@@ -142,8 +142,8 @@ def VGGDrop(dropout_rate, num_base_filters, learning_rate, l2_reg, input_shape):
       tfkl.Activation("relu"),
       # Global poolings
       tfkl.Lambda(lambda x: tfk.backend.concatenate(
-          [tfkl.GlobalAvgPool2D()(x),
-           tfkl.GlobalMaxPool2D()(x)], axis=1)),
+          [tfkl.GlobalAvgPool2D()
+           (x), tfkl.GlobalMaxPool2D()(x)], axis=1)),
       # Fully-connected
       tfkl.Dense(1, kernel_regularizer=tfk.regularizers.l2(l2_reg)),
       tfkl.Activation("sigmoid")

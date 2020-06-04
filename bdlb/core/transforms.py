@@ -18,7 +18,9 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from typing import Optional, Sequence, Tuple
+from typing import Optional
+from typing import Sequence
+from typing import Tuple
 
 import numpy as np
 import tensorflow as tf
@@ -40,7 +42,7 @@ class Compose(Transform):
 
   def __init__(self, transforms: Sequence[Transform]):
     """Constructs a composition of transformations.
-    
+
     Args:
       transforms: `iterable`, sequence of transformations to be composed.
     """
@@ -52,11 +54,11 @@ class Compose(Transform):
       y: Optional[tf.Tensor] = None,
   ) -> Tuple[tf.Tensor, tf.Tensor]:
     """Returns a composite function of transformations.
-    
+
     Args:
       x: `any`, raw data format.
       y: `optional`, raw data format.
-    
+
     Returns:
       A composite function to be used with `tf.data.Dataset.map()`.
     """
@@ -69,7 +71,7 @@ class RandomAugment(Transform):
 
   def __init__(self, **config):
     """Constructs a tranformer from `config`.
-    
+
     Args:
       **config: keyword arguments for
         `tensorflow.keras.preprocessing.image.ImageDataGenerator`
@@ -78,12 +80,12 @@ class RandomAugment(Transform):
 
   def __call__(self, x: tf.Tensor, y: tf.Tensor) -> Tuple[tf.Tensor, tf.Tensor]:
     """Returns a randomly augmented image and its label.
-    
+
     Args:
       x: `tensorflow.Tensor`, an image, with shape [height, width, channels].
       y: `tensorflow.Tensor`, a target, with shape [].
-    
-    
+
+
     Returns:
       The processed tuple:
         * `x`: `tensorflow.Tensor`, the randomly augmented image,
@@ -93,8 +95,8 @@ class RandomAugment(Transform):
     return tf.py_function(self._transform, inp=[x], Tout=tf.float32), y
 
   def _transform(self, x: tf.Tensor) -> tf.Tensor:
-    """Helper function for `tensorflow.py_function`, will
-    be removed when TensorFlow 2.0 is released."""
+    """Helper function for `tensorflow.py_function`, will be removed when
+    TensorFlow 2.0 is released."""
     return tf.cast(self.idg.random_transform(x.numpy()), tf.float32)
 
 
@@ -102,7 +104,7 @@ class Resize(Transform):
 
   def __init__(self, target_height: int, target_width: int):
     """Constructs an image resizer.
-    
+
     Args:
       target_height: `int`, number of pixels in height.
       target_width: `int`, number of pixels in width.

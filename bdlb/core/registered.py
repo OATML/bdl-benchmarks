@@ -18,11 +18,15 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from typing import Dict, Optional, Text, Union
+from typing import Dict
+from typing import Optional
+from typing import Text
+from typing import Union
 
 from ..core.benchmark import Benchmark
 from ..core.levels import Level
-from ..diabetic_retinopathy_diagnosis.benchmark import DiabeticRetinopathyDiagnosisBecnhmark
+from ..diabetic_retinopathy_diagnosis.benchmark import \
+    DiabeticRetinopathyDiagnosisBecnhmark
 
 # Internal registry containing <str registered_name, Benchmark subclass>
 _BENCHMARK_REGISTRY: Dict[Text, Benchmark] = {
@@ -38,7 +42,7 @@ def load(
     **dtask_kwargs,
 ) -> Benchmark:
   """Loads the named benchmark into a `bdlb.Benchmark`.
-  
+
   Args:
     benchmark: `str`, the registerd name of `bdlb.Benchmark`.
     level: `bdlb.Level` or `str`, which level of the benchmark to load.
@@ -47,10 +51,10 @@ def load(
     download_and_prepare: (optional) `bool`, if the data is not available
         it downloads and preprocesses it.
     dtask_kwargs: key arguments for the benchmark contructor.
-  
+
   Returns:
     A registered `bdlb.Benchmark` with `level` at `data_dir`.
-  
+
   Raises:
     BenchmarkNotFoundError: if `name` is unrecognised.
   """

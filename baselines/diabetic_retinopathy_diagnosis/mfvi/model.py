@@ -12,19 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-"""Model definition of the VGGish network for Mean-Field Variational Inference baseline."""
+"""Model definition of the VGGish network for Mean-Field Variational Inference
+baseline."""
 
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import functools
 import collections
+import functools
 
 
 def VGGFlipout(num_base_filters, learning_rate, input_shape):
   """VGG-like model with Flipout for diabetic retinopathy diagnosis.
-  
+
   Args:
     num_base_filters: `int`, number of convolution filters in the
       first layer.
@@ -120,8 +121,8 @@ def VGGFlipout(num_base_filters, learning_rate, input_shape):
       tfkl.Activation("relu"),
       # Global poolings
       tfkl.Lambda(lambda x: tfk.backend.concatenate(
-          [tfkl.GlobalAvgPool2D()(x),
-           tfkl.GlobalMaxPool2D()(x)], axis=1)),
+          [tfkl.GlobalAvgPool2D()
+           (x), tfkl.GlobalMaxPool2D()(x)], axis=1)),
       # Fully-connected
       tfpl.DenseFlipout(1,),
       tfkl.Activation("sigmoid")

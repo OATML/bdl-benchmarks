@@ -21,7 +21,7 @@ from __future__ import print_function
 
 def predict(x, model, num_samples, type="entropy"):
   """Simple sigmoid uncertainty estimator.
-    
+
   Args:
     x: `numpy.ndarray`, datapoints from input space,
       with shape [B, H, W, 3], where B the batch size and
@@ -33,7 +33,7 @@ def predict(x, model, num_samples, type="entropy"):
       disabling dropout at test time.
     type: (optional) `str`, type of uncertainty returns,
       one of {"entropy", "stddev"}.
-  
+
   Returns:
     mean: `numpy.ndarray`, predictive mean, with shape [B].
     uncertainty: `numpy.ndarray`, ncertainty in prediction,
