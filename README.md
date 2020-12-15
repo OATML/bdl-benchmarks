@@ -71,3 +71,14 @@ Please cite individual benchmarks when you use these, as well as the baselines y
 ## Contact Us
 
 The repository is developed and maintained by the [Oxford Applied and Theoretical Machine Learning](http://oatml.cs.ox.ac.uk/) group. Email us for questions or submit any issues to improve the framework.
+
+## Acknowledgements
+
+Development and core maintenance of Bayesian Deep Learning Benchmarks (BDLB) are kindly sponsored by:
+
+<p align="center">
+<img src="https://github.com/OATML/bdl-benchmarks/tree/ack-logos/assets/intel.png" style="float: left; width: 100px; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em">
+<img src="https://github.com/OATML/bdl-benchmarks/tree/ack-logos/assets/oatml.png" style="float: left; width: 100px; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em">
+<img src="https://github.com/OATML/bdl-benchmarks/tree/ack-logos/assets/oxcs.png" style="float: left; width: 100px; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em">
+<img src="https://github.com/OATML/bdl-benchmarks/tree/ack-logos/assets/turing.png" style="float: left; width: 100px; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em">
+</p>
