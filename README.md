@@ -76,11 +76,11 @@ The repository is developed and maintained by the [Oxford Applied and Theoretica
 
 Development and core maintenance of Bayesian Deep Learning Benchmarks (BDLB) are kindly sponsored by:
 
-<table>
+<table cellspacing="0" cellpadding="0" align="center">
   <tr>
-    <td><img src="https://github.com/OATML/bdl-benchmarks/blob/ack-logos/assets/intel.png" style="float: left; width: 25%; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em"></td>
-    <td><img src="https://github.com/OATML/bdl-benchmarks/blob/ack-logos/assets/oatml.png" style="float: left; width: 25%; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em"></td>
-    <td><img src="https://github.com/OATML/bdl-benchmarks/blob/ack-logos/assets/oxcs.png" style="float: left; width: 25%; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em"></td>
-    <td><img src="https://github.com/OATML/bdl-benchmarks/blob/ack-logos/assets/turing.png" style="float: left; width: 25%; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em"></td>
+    <td><img src="https://github.com/OATML/bdl-benchmarks/blob/ack-logos/assets/intel.png" style="float: left; width: 200px; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em"></td>
+    <td><img src="https://github.com/OATML/bdl-benchmarks/blob/ack-logos/assets/oatml.png" style="float: left; width: 200px; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em"></td>
+    <td><img src="https://github.com/OATML/bdl-benchmarks/blob/ack-logos/assets/oxcs.png" style="float: left; width: 200px; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em"></td>
+    <td><img src="https://github.com/OATML/bdl-benchmarks/blob/ack-logos/assets/turing.png" style="float: left; width: 200px; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em"></td>
   </tr>
  </table>
