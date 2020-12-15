@@ -68,13 +68,9 @@ The models try to predict diabetic retinopathy, and use their uncertainty for *p
 
 Please cite individual benchmarks when you use these, as well as the baselines you compare against. For the [Diabetic Retinopathy Diagnosis](baselines/diabetic_retinopathy_diagnosis) benchmark please see [here](baselines/diabetic_retinopathy_diagnosis#cite-as).
 
-## Contact Us
-
-The repository is developed and maintained by the [Oxford Applied and Theoretical Machine Learning](http://oatml.cs.ox.ac.uk/) group. Email us for questions or submit any issues to improve the framework.
-
 ## Acknowledgements
 
-Development and core maintenance of Bayesian Deep Learning Benchmarks (BDLB) are kindly sponsored by:
+The repository is developed and maintained by the [Oxford Applied and Theoretical Machine Learning](http://oatml.cs.ox.ac.uk/) group, with sponsorship from:
 
 <table align="center">
   <tr>
@@ -84,3 +80,7 @@ Development and core maintenance of Bayesian Deep Learning Benchmarks (BDLB) are
     <td><img src="https://github.com/OATML/bdl-benchmarks/blob/ack-logos/assets/turing.png" style="float: left; width: 200px; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em"></td>
   </tr>
  </table>
+ 
+## Contact Us
+
+Email us for questions at oatml@cs.ox.ac.uk, or submit any issues to improve the framework.
