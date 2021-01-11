@@ -74,10 +74,10 @@ The repository is developed and maintained by the [Oxford Applied and Theoretica
 
 <table align="center">
   <tr>
-    <td><img src="https://github.com/OATML/bdl-benchmarks/assets/intel.png" style="float: left; width: 200px; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em"></td>
-    <td><img src="https://github.com/OATML/bdl-benchmarks/assets/oatml.png" style="float: left; width: 200px; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em"></td>
-    <td><img src="https://github.com/OATML/bdl-benchmarks/assets/oxcs.png" style="float: left; width: 200px; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em"></td>
-    <td><img src="https://github.com/OATML/bdl-benchmarks/assets/turing.png" style="float: left; width: 200px; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em"></td>
+    <td><img src="https://github.com/OATML/bdl-benchmarks/blob/alpha/assets/intel.png" style="float: left; width: 200px; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em"></td>
+    <td><img src="https://github.com/OATML/bdl-benchmarks/blob/alpha/assets/oatml.png" style="float: left; width: 200px; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em"></td>
+    <td><img src="https://github.com/OATML/bdl-benchmarks/blob/alpha/assets/oxcs.png" style="float: left; width: 200px; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em"></td>
+    <td><img src="https://github.com/OATML/bdl-benchmarks/blob/alpha/assets/turing.png" style="float: left; width: 200px; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em"></td>
   </tr>
  </table>
  
