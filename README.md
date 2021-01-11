@@ -68,6 +68,19 @@ The models try to predict diabetic retinopathy, and use their uncertainty for *p
 
 Please cite individual benchmarks when you use these, as well as the baselines you compare against. For the [Diabetic Retinopathy Diagnosis](baselines/diabetic_retinopathy_diagnosis) benchmark please see [here](baselines/diabetic_retinopathy_diagnosis#cite-as).
 
+## Acknowledgements
+
+The repository is developed and maintained by the [Oxford Applied and Theoretical Machine Learning](http://oatml.cs.ox.ac.uk/) group, with sponsorship from:
+
+<table align="center">
+  <tr>
+    <td><img src="https://github.com/OATML/bdl-benchmarks/assets/intel.png" style="float: left; width: 200px; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em"></td>
+    <td><img src="https://github.com/OATML/bdl-benchmarks/assets/oatml.png" style="float: left; width: 200px; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em"></td>
+    <td><img src="https://github.com/OATML/bdl-benchmarks/assets/oxcs.png" style="float: left; width: 200px; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em"></td>
+    <td><img src="https://github.com/OATML/bdl-benchmarks/assets/turing.png" style="float: left; width: 200px; margin-right: 1%; margin-bottom: 0.5em; margin-top: 0.0em"></td>
+  </tr>
+ </table>
+ 
 ## Contact Us
 
-The repository is developed and maintained by the [Oxford Applied and Theoretical Machine Learning](http://oatml.cs.ox.ac.uk/) group. Email us for questions or submit any issues to improve the framework.
+Email us for questions at oatml@cs.ox.ac.uk, or submit any issues to improve the framework.
