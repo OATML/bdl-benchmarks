@@ -2,7 +2,7 @@
 
 **This repository is no longer being updated.** 
 
-Please refer to the 'uncertainty-baselines' repo at https://github.com/google/uncertainty-baselines for up-to-date baseline implementations.
+Please refer to the [Diabetic Retinopathy Detection implementation in Google's 'uncertainty-baselines' repo](https://github.com/google/uncertainty-baselines/tree/master/baselines/diabetic_retinopathy_detection) for up-to-date baseline implementations.
 
 ## Overview
 In order to make real-world difference with **Bayesian Deep Learning** (BDL) tools, the tools must scale to real-world settings. And for that we, the research community, must be able to evaluate our inference tools (and iterate quickly) with real-world benchmark tasks. We should be able to do this without necessarily worrying about application-specific domain knowledge, like the expertise often required in medical applications for example. We require benchmarks to test for inference robustness, performance, and accuracy, in addition to cost and effort of development. These benchmarks should be at a variety of scales, ranging from toy `MNIST`-scale benchmarks for fast development cycles, to large data benchmarks which are truthful to real-world applications, capturing their constraints.
